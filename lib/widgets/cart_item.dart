@@ -16,6 +16,35 @@ class CartItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       direction: DismissDirection.endToStart,
+      confirmDismiss: (dir) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Are you sure ?'),
+            content: Text('Cette action est irréversible.'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+                child: Text(
+                  'Non',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+                child: Text(
+                  'Oui',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
       onDismissed: (dir) => Provider.of<Cart>(context, listen: false).removeItem(productId),
       key: ValueKey(id),
       background: Container(
