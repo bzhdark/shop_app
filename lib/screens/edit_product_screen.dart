@@ -84,12 +84,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     });
 
     if (_editedProduct.id != null) {
-      print(_editedProduct.id);
-      Provider.of<Products>(context, listen: false).updateProduct(_editedProduct.id, _editedProduct);
-      Navigator.of(context).pop();
-      setState(() {
-        _isLoading = true;
-      });
+      await Provider.of<Products>(context, listen: false).updateProduct(_editedProduct.id, _editedProduct);
     } else {
       //new product
       try {
@@ -111,13 +106,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ],
           ),
         );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   Widget build(BuildContext context) {
